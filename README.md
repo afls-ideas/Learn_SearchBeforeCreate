@@ -9,7 +9,7 @@ Select a **User** and an **Account**, click **Diagnose**, and the tool checks ev
 | Check | What it verifies |
 |-------|-----------------|
 | Account Exists | Account record and record type |
-| IsPrimaryProvider | HealthcareProvider.IsPrimaryProvider = true (required for SOSL) |
+| IsPrimaryProvider | HealthcareProvider.IsPrimaryProvider = true (required for SOSL). Inline **fix button** to set it to true. |
 | ContactPointAddress | Address exists with valid CountryCode |
 | User Active | User is active with profile info |
 | Search Preferences Level | Whether org-default or profile-specific settings apply |
@@ -63,9 +63,9 @@ Settings can be applied at org-level or per-profile. The tool detects which leve
 ## Architecture
 
 ```
-LWC (searchDiagnostic)
-  └─► Apex Controller (SearchDiagnosticController)
-        ├─► VF Page (SessionId) — provides valid REST API session
+LWC (demoSearchDiagnostic)
+  └─► Apex Controller (DemoSearchDiagnosticController)
+        ├─► VF Page (DemoSessionId) — provides valid REST API session
         ├─► REST API: LifeSciMetadataCategory/Record/FieldValue/Assignment
         ├─► REST API: HealthcareProvider, ContactPointAddress, UserAdditionalInfo
         ├─► REST API: ProviderAcctTerritoryInfo, UserTerritory2Association
@@ -84,9 +84,11 @@ The tool deploys as a tab called **SBC Troubleshooter** in the **AFLS Powertool*
 
 | Component | Type | Purpose |
 |-----------|------|---------|
-| `SearchDiagnosticController` | Apex Class | Diagnostic logic via REST API |
-| `SearchBeforeCreateConfigController` | Apex Class | Read/write Account Search Preferences (hidden, available for future use) |
-| `searchDiagnostic` | LWC | Diagnostic UI |
-| `searchBeforeCreateConfig` | LWC | Config editor UI (hidden, available for future use) |
-| `SessionId` | VF Page | Provides valid API session token |
+| `DemoSearchDiagnosticController` | Apex Class | Diagnostic logic via REST API |
+| `DemoSearchBeforeCreateConfigController` | Apex Class | Read/write Account Search Preferences (hidden, available for future use) |
+| `DemoSearchDiagnosticControllerTest` | Apex Test | 7 tests covering diagnostic, fix, territories, visualization |
+| `DemoSBCConfigControllerTest` | Apex Test | 6 tests covering config read/write |
+| `demoSearchDiagnostic` | LWC | Diagnostic UI |
+| `demoSearchBeforeCreateConfig` | LWC | Config editor UI (hidden, available for future use) |
+| `DemoSessionId` | VF Page | Provides valid API session token |
 | `SBC_Troubleshooter` | Tab + FlexiPage | App page in AFLS Powertool |
