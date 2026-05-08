@@ -1,5 +1,7 @@
 # SBC Troubleshooter
 
+[![Deploy to Salesforce](https://raw.githubusercontent.com/afwardstern/deploy-to-salesforce-dx/master/deploy.png)](https://deploy-to-sfdx.com?template=https://github.com/afls-ideas/Learn_SearchBeforeCreate&ref=main)
+
 LWC + Apex tool to diagnose why a user cannot find an account in Life Sciences Cloud's Search Before Create feature.
 
 ## What It Does
