@@ -1,0 +1,111 @@
+<template>
+    <lightning-card title="Search Diagnostic" icon-name="standard:diagnosis">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-body_regular slds-m-bottom_medium">
+                Diagnose why a user cannot find an account in Search Before Create.
+            </p>
+
+            <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-record-picker
+                        label="User"
+                        placeholder="Select a user..."
+                        object-api-name="User"
+                        data-id="userPicker"
+                    ></lightning-record-picker>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-record-picker
+                        label="Account"
+                        placeholder="Select an account..."
+                        object-api-name="Account"
+                        data-id="accountPicker"
+                    ></lightning-record-picker>
+                </div>
+            </div>
+
+            <!-- User's territories shown as pills -->
+            <template if:true={showTerritories}>
+                <div class="slds-m-bottom_medium">
+                    <span class="slds-text-title_caps slds-m-right_small">User Territories:</span>
+                    <template for:each={territories} for:item="terr">
+                        <lightning-badge key={terr.value} label={terr.label} class="slds-m-right_xx-small"></lightning-badge>
+                    </template>
+                </div>
+            </template>
+
+            <lightning-button
+                variant="brand"
+                label="Diagnose"
+                icon-name="utility:search"
+                onclick={handleDiagnose}
+                class="slds-m-bottom_medium"
+            ></lightning-button>
+
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Diagnosing..." size="medium"></lightning-spinner>
+            </template>
+
+            <template if:true={hasResults}>
+                <!-- Summary -->
+                <div class="slds-m-top_medium slds-m-bottom_medium">
+                    <lightning-icon
+                        icon-name={summaryIconName}
+                        variant={summaryVariant}
+                        size="small"
+                        class="slds-m-right_x-small"
+                    ></lightning-icon>
+                    <span class="slds-text-heading_small">
+                        {userName} → {accountName}: {summaryText}
+                    </span>
+                </div>
+
+                <!-- Results Table -->
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col" style="width: 3rem;">
+                                <span class="slds-truncate">Status</span>
+                            </th>
+                            <th scope="col" style="width: 14rem;">
+                                <span class="slds-truncate">Check</span>
+                            </th>
+                            <th scope="col">
+                                <span class="slds-truncate">Detail</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={checks} for:item="check">
+                            <tr key={check.key}>
+                                <td>
+                                    <lightning-icon
+                                        icon-name={check.iconName}
+                                        variant={check.iconVariant}
+                                        size="x-small"
+                                    ></lightning-icon>
+                                </td>
+                                <td>
+                                    <span class="slds-truncate">{check.name}</span>
+                                </td>
+                                <td>
+                                    <span>{check.displayDetail}</span>
+                                    <template if:true={check.hasLink}>
+                                        &nbsp;<lightning-button
+                                            variant="base"
+                                            label="Edit UserAdditionalInfo"
+                                            icon-name="utility:new_window"
+                                            icon-position="right"
+                                            data-url={check.linkUrl}
+                                            onclick={handleOpenLink}
+                                        ></lightning-button>
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+        </div>
+    </lightning-card>
+</template>

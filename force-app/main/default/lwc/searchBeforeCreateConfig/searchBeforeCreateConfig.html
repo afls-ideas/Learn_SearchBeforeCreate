@@ -1,0 +1,148 @@
+<template>
+    <lightning-card title="Account Search Preferences" icon-name="standard:search">
+        <lightning-button
+            slot="actions"
+            label="Refresh"
+            icon-name="utility:refresh"
+            onclick={handleRefresh}
+        ></lightning-button>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+        </template>
+
+        <template if:true={error}>
+            <div class="slds-m-around_medium">
+                <lightning-card>
+                    <p class="slds-text-color_error slds-p-around_medium">{error}</p>
+                </lightning-card>
+            </div>
+        </template>
+
+        <template if:false={error}>
+            <div class="slds-m-around_medium">
+
+                <!-- Search Outside Territory Section -->
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Search Outside Territory">
+                            Search Outside Territory
+                        </span>
+                    </h3>
+                    <div class="slds-section__content slds-p-around_medium">
+                        <template for:each={searchOutsideTerritoryFields} for:item="field">
+                            <div key={field.id} class="slds-m-bottom_small">
+                                <template if:true={field.isBoolean}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={field.label}
+                                        checked={field.checked}
+                                        data-id={field.id}
+                                        data-field={field.fieldName}
+                                        onchange={handleToggleChange}
+                                    ></lightning-input>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Search Outside Territory Record Types -->
+                <template if:true={territoryRecordTypeField}>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Search Outside Territory Record Types">
+                                Search Outside Territory Record Types
+                            </span>
+                        </h3>
+                        <div class="slds-section__content slds-p-around_medium">
+                            <lightning-dual-listbox
+                                label="Record Types"
+                                source-label="Available Values"
+                                selected-label="Selected Values"
+                                options={availableRecordTypeOptions}
+                                value={selectedTerritoryRecordTypes}
+                                data-id={territoryRecordTypeField.id}
+                                data-field="SearchOutsideTerritoryRecordTypes"
+                                onchange={handleMultipicklistChange}
+                            ></lightning-dual-listbox>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Advanced Search Section -->
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Advanced Search">
+                            Advanced Search
+                        </span>
+                    </h3>
+                    <div class="slds-section__content slds-p-around_medium">
+                        <template for:each={advancedSearchFields} for:item="field">
+                            <div key={field.id} class="slds-m-bottom_small">
+                                <template if:true={field.isBoolean}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={field.label}
+                                        checked={field.checked}
+                                        data-id={field.id}
+                                        data-field={field.fieldName}
+                                        onchange={handleToggleChange}
+                                    ></lightning-input>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Additional Search Preferences Section -->
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Additional Search Preferences">
+                            Additional Search Preferences
+                        </span>
+                    </h3>
+                    <div class="slds-section__content slds-p-around_medium">
+                        <template for:each={additionalPreferencesFields} for:item="field">
+                            <div key={field.id} class="slds-m-bottom_small">
+                                <template if:true={field.isBoolean}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={field.label}
+                                        checked={field.checked}
+                                        data-id={field.id}
+                                        data-field={field.fieldName}
+                                        onchange={handleToggleChange}
+                                    ></lightning-input>
+                                </template>
+                                <template if:true={field.isPicklist}>
+                                    <lightning-combobox
+                                        label={field.label}
+                                        value={field.picklistValue}
+                                        options={availableRecordTypeOptions}
+                                        data-id={field.id}
+                                        data-field={field.fieldName}
+                                        onchange={handlePicklistChange}
+                                    ></lightning-combobox>
+                                </template>
+                                <template if:true={field.isMultipicklist}>
+                                    <lightning-dual-listbox
+                                        label={field.label}
+                                        source-label="Available Values"
+                                        selected-label="Selected Values"
+                                        options={availableRecordTypeOptions}
+                                        value={selectedAccountRecordTypes}
+                                        data-id={field.id}
+                                        data-field={field.fieldName}
+                                        onchange={handleMultipicklistChange}
+                                    ></lightning-dual-listbox>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+            </div>
+        </template>
+    </lightning-card>
+</template>
