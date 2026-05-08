@@ -6,6 +6,8 @@
 
 LWC + Apex tool to diagnose why a user cannot find an account in Life Sciences Cloud's Search Before Create feature.
 
+![SBC Troubleshooter Demo](asset/SBC_Troubleshoot.gif)
+
 ## What It Does
 
 Select a **User** and an **Account**, click **Diagnose**, and the tool checks every prerequisite for searchability:
