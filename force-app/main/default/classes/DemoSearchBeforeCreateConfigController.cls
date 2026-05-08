@@ -6,7 +6,7 @@ public with sharing class DemoSearchBeforeCreateConfigController {
         if (Test.isRunningTest() && testSessionId != null) {
             return testSessionId;
         }
-        String vfContent = Page.SessionId.getContent().toString();
+        String vfContent = Page.DemoSessionId.getContent().toString();
         return vfContent.trim();
     }
 

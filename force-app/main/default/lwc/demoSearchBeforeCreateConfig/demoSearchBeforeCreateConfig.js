@@ -45,7 +45,7 @@ const FIELD_SECTIONS = {
     ]
 };
 
-export default class SearchBeforeCreateConfig extends LightningElement {
+export default class DemoSearchBeforeCreateConfig extends LightningElement {
     @track settings = {};
     @track fieldValues = [];
     @track recordTypes = [];

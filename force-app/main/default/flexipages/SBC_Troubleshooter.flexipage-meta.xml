@@ -3,8 +3,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>c:searchDiagnostic</componentName>
-                <identifier>searchDiagnostic1</identifier>
+                <componentName>c:demoSearchDiagnostic</componentName>
+                <identifier>demoSearchDiagnostic1</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

@@ -18,7 +18,7 @@ const STATUS_VARIANTS = {
     INFO: 'info'
 };
 
-export default class SearchDiagnostic extends LightningElement {
+export default class DemoSearchDiagnostic extends LightningElement {
     userId = null;
     accountId = null;
     checks = [];
