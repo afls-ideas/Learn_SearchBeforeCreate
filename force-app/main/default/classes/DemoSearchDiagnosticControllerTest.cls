@@ -1,5 +1,5 @@
 @isTest(SeeAllData=true)
-private class SearchDiagnosticControllerTest {
+private class DemoSearchDiagnosticControllerTest {
 
     private class MockHttpResponse implements HttpCalloutMock {
         private Map<String, String> responseMap = new Map<String, String>();
@@ -48,7 +48,7 @@ private class SearchDiagnosticControllerTest {
         Account acct = [SELECT Id FROM Account LIMIT 1];
         User usr = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
 
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         mock.addResponse('HealthcareProvider', '{"totalSize":1,"done":true,"records":[{"Id":"0cmHs000000tN0eIAE","IsPrimaryProvider":true,"Status":"Active","AccountId":"' + acct.Id + '"}]}');
         mock.addResponse('ContactPointAddress', '{"totalSize":1,"done":true,"records":[{"Id":"0a1Hs000000AAAAAA","Street":"123 Main","City":"Paris","StateCode":null,"CountryCode":"FR","IsPrimary":true}]}');
@@ -62,7 +62,7 @@ private class SearchDiagnosticControllerTest {
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchDiagnosticController.diagnoseSearch(usr.Id, acct.Id);
+        Map<String, Object> result = DemoSearchDiagnosticController.diagnoseSearch(usr.Id, acct.Id);
         Test.stopTest();
 
         System.assertNotEquals(null, result);
@@ -77,7 +77,7 @@ private class SearchDiagnosticControllerTest {
         Account acct = [SELECT Id FROM Account LIMIT 1];
         User usr = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
 
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         mock.addResponse('HealthcareProvider', '{"totalSize":1,"done":true,"records":[{"Id":"0cmHs000000tN0eIAE","IsPrimaryProvider":false,"Status":"Active","AccountId":"' + acct.Id + '"}]}');
         mock.addResponse('ContactPointAddress', '{"totalSize":0,"done":true,"records":[]}');
@@ -90,7 +90,7 @@ private class SearchDiagnosticControllerTest {
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchDiagnosticController.diagnoseSearch(usr.Id, acct.Id);
+        Map<String, Object> result = DemoSearchDiagnosticController.diagnoseSearch(usr.Id, acct.Id);
         Test.stopTest();
 
         List<Object> checks = (List<Object>) result.get('checks');
@@ -109,12 +109,12 @@ private class SearchDiagnosticControllerTest {
     static void testDiagnoseSearchInvalidAccount() {
         User usr = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
 
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchDiagnosticController.diagnoseSearch(usr.Id, '001000000000000AAA');
+        Map<String, Object> result = DemoSearchDiagnosticController.diagnoseSearch(usr.Id, '001000000000000AAA');
         Test.stopTest();
 
         List<Object> checks = (List<Object>) result.get('checks');
@@ -132,13 +132,13 @@ private class SearchDiagnosticControllerTest {
     static void testGetUserTerritories() {
         User usr = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
 
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         mock.addResponse('UserTerritory2Association', '{"totalSize":1,"done":true,"records":[{"Id":"07tHs000000AAAAAA","Territory2Id":"0MIHs000000AAAAAA","Territory2":{"Name":"France"}}]}');
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        List<Map<String, String>> territories = SearchDiagnosticController.getUserTerritories(usr.Id);
+        List<Map<String, String>> territories = DemoSearchDiagnosticController.getUserTerritories(usr.Id);
         Test.stopTest();
 
         System.assertEquals(1, territories.size());
@@ -147,23 +147,23 @@ private class SearchDiagnosticControllerTest {
 
     @isTest
     static void testFixIsPrimaryProvider() {
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        SearchDiagnosticController.fixIsPrimaryProvider('0cmHs000000tN0eIAE');
+        DemoSearchDiagnosticController.fixIsPrimaryProvider('0cmHs000000tN0eIAE');
         Test.stopTest();
     }
 
     @isTest
     static void testFixIsPrimaryProviderError() {
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         Test.setMock(HttpCalloutMock.class, new FailingPatchMock());
 
         Test.startTest();
         try {
-            SearchDiagnosticController.fixIsPrimaryProvider('0cmHs000000tN0eIAE');
+            DemoSearchDiagnosticController.fixIsPrimaryProvider('0cmHs000000tN0eIAE');
             System.assert(false, 'Should have thrown');
         } catch (AuraHandledException e) {
             System.assert(true);
@@ -176,7 +176,7 @@ private class SearchDiagnosticControllerTest {
         Account acct = [SELECT Id FROM Account LIMIT 1];
         User usr = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
 
-        SearchDiagnosticController.testSessionId = 'fake-session-id';
+        DemoSearchDiagnosticController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         mock.addResponse('ContactPointAddress', '{"totalSize":1,"done":true,"records":[{"Id":"0a1Hs000000AAAAAA","CountryCode":"FR","IsPrimary":true}]}');
         mock.addResponse('ProviderAcctTerritoryInfo', '{"totalSize":0,"done":true,"records":[]}');
@@ -186,7 +186,7 @@ private class SearchDiagnosticControllerTest {
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchDiagnosticController.getVisualizationData(usr.Id, acct.Id, '0MIHs000000AAAAAA');
+        Map<String, Object> result = DemoSearchDiagnosticController.getVisualizationData(usr.Id, acct.Id, '0MIHs000000AAAAAA');
         Test.stopTest();
 
         System.assertNotEquals(null, result.get('zone'));

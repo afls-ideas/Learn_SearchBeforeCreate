@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
-import diagnoseSearch from '@salesforce/apex/SearchDiagnosticController.diagnoseSearch';
-import getUserTerritories from '@salesforce/apex/SearchDiagnosticController.getUserTerritories';
-import fixIsPrimaryProvider from '@salesforce/apex/SearchDiagnosticController.fixIsPrimaryProvider';
+import diagnoseSearch from '@salesforce/apex/DemoSearchDiagnosticController.diagnoseSearch';
+import getUserTerritories from '@salesforce/apex/DemoSearchDiagnosticController.getUserTerritories';
+import fixIsPrimaryProvider from '@salesforce/apex/DemoSearchDiagnosticController.fixIsPrimaryProvider';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const STATUS_ICONS = {

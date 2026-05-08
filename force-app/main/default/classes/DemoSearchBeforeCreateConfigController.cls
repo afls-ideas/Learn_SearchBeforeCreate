@@ -1,4 +1,4 @@
-public with sharing class SearchBeforeCreateConfigController {
+public with sharing class DemoSearchBeforeCreateConfigController {
 
     @TestVisible private static String testSessionId;
 

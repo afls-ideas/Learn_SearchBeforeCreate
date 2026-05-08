@@ -1,9 +1,9 @@
 import { LightningElement, wire, track } from 'lwc';
-import getAccountSearchPreferences from '@salesforce/apex/SearchBeforeCreateConfigController.getAccountSearchPreferences';
-import getAccountRecordTypes from '@salesforce/apex/SearchBeforeCreateConfigController.getAccountRecordTypes';
-import updateBooleanSetting from '@salesforce/apex/SearchBeforeCreateConfigController.updateBooleanSetting';
-import updatePicklistSetting from '@salesforce/apex/SearchBeforeCreateConfigController.updatePicklistSetting';
-import updateMultipicklistSetting from '@salesforce/apex/SearchBeforeCreateConfigController.updateMultipicklistSetting';
+import getAccountSearchPreferences from '@salesforce/apex/DemoSearchBeforeCreateConfigController.getAccountSearchPreferences';
+import getAccountRecordTypes from '@salesforce/apex/DemoSearchBeforeCreateConfigController.getAccountRecordTypes';
+import updateBooleanSetting from '@salesforce/apex/DemoSearchBeforeCreateConfigController.updateBooleanSetting';
+import updatePicklistSetting from '@salesforce/apex/DemoSearchBeforeCreateConfigController.updatePicklistSetting';
+import updateMultipicklistSetting from '@salesforce/apex/DemoSearchBeforeCreateConfigController.updateMultipicklistSetting';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 

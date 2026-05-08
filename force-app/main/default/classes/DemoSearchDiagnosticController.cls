@@ -1,4 +1,4 @@
-public with sharing class SearchDiagnosticController {
+public with sharing class DemoSearchDiagnosticController {
 
     @TestVisible private static String testSessionId;
 

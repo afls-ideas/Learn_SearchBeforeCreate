@@ -1,5 +1,5 @@
 @isTest
-private class SearchBeforeCreateConfigControllerTest {
+private class DemoSBCConfigControllerTest {
 
     private class MockHttpResponse implements HttpCalloutMock {
         private Map<String, String> responseMap = new Map<String, String>();
@@ -35,7 +35,7 @@ private class SearchBeforeCreateConfigControllerTest {
 
     @isTest
     static void testGetAccountSearchPreferences() {
-        SearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
+        DemoSearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         mock.addResponse('LifeSciMetadataCategory', '{"totalSize":1,"done":true,"records":[{"Id":"0ltHs000000AAAAAA","Name":"AccountSearchPreferences","Category":"AccountSearchPreferences"}]}');
         mock.addResponse('LifeSciMetadataRecord', '{"totalSize":1,"done":true,"records":[{"Id":"0luHs000000AAAAAA","Name":"Default","RecordApiName":"Default","IsOrgLevel":true,"IsActive":true}]}');
@@ -43,7 +43,7 @@ private class SearchBeforeCreateConfigControllerTest {
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchBeforeCreateConfigController.getAccountSearchPreferences();
+        Map<String, Object> result = DemoSearchBeforeCreateConfigController.getAccountSearchPreferences();
         Test.stopTest();
 
         System.assertEquals(null, result.get('error'));
@@ -56,12 +56,12 @@ private class SearchBeforeCreateConfigControllerTest {
 
     @isTest
     static void testGetAccountSearchPreferencesNoCategory() {
-        SearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
+        DemoSearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchBeforeCreateConfigController.getAccountSearchPreferences();
+        Map<String, Object> result = DemoSearchBeforeCreateConfigController.getAccountSearchPreferences();
         Test.stopTest();
 
         System.assertEquals('AccountSearchPreferences category not found', result.get('error'));
@@ -69,12 +69,12 @@ private class SearchBeforeCreateConfigControllerTest {
 
     @isTest
     static void testUpdateBooleanSetting() {
-        SearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
+        DemoSearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchBeforeCreateConfigController.updateBooleanSetting('0lvHs000000tN0eIAE', true);
+        Map<String, Object> result = DemoSearchBeforeCreateConfigController.updateBooleanSetting('0lvHs000000tN0eIAE', true);
         Test.stopTest();
 
         System.assertEquals(true, result.get('success'));
@@ -82,12 +82,12 @@ private class SearchBeforeCreateConfigControllerTest {
 
     @isTest
     static void testUpdatePicklistSetting() {
-        SearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
+        DemoSearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchBeforeCreateConfigController.updatePicklistSetting('0lvHs000000tN0eIAE', 'MyCustomers');
+        Map<String, Object> result = DemoSearchBeforeCreateConfigController.updatePicklistSetting('0lvHs000000tN0eIAE', 'MyCustomers');
         Test.stopTest();
 
         System.assertEquals(true, result.get('success'));
@@ -95,12 +95,12 @@ private class SearchBeforeCreateConfigControllerTest {
 
     @isTest
     static void testUpdateMultipicklistSetting() {
-        SearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
+        DemoSearchBeforeCreateConfigController.testSessionId = 'fake-session-id';
         MockHttpResponse mock = new MockHttpResponse();
         Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
-        Map<String, Object> result = SearchBeforeCreateConfigController.updateMultipicklistSetting(
+        Map<String, Object> result = DemoSearchBeforeCreateConfigController.updateMultipicklistSetting(
             '0lvHs000000tN0eIAE',
             new List<String>{'Health_Care_Provider', 'Business_Account'}
         );
@@ -112,7 +112,7 @@ private class SearchBeforeCreateConfigControllerTest {
     @isTest
     static void testGetAccountRecordTypes() {
         Test.startTest();
-        List<Map<String, String>> recordTypes = SearchBeforeCreateConfigController.getAccountRecordTypes();
+        List<Map<String, String>> recordTypes = DemoSearchBeforeCreateConfigController.getAccountRecordTypes();
         Test.stopTest();
 
         System.assertNotEquals(null, recordTypes);
