@@ -90,6 +90,24 @@
                                 </td>
                                 <td>
                                     <span>{check.displayDetail}</span>
+                                    <template if:true={check.hasFixHp}>
+                                        <template if:false={check.fixHpDone}>
+                                            &nbsp;<lightning-button
+                                                variant="brand"
+                                                label="Click to fix record"
+                                                data-hpid={check.fixHpId}
+                                                onclick={handleFixPrimaryProvider}
+                                            ></lightning-button>
+                                        </template>
+                                        <template if:true={check.fixHpDone}>
+                                            &nbsp;<lightning-button
+                                                variant="success"
+                                                label="Fixed"
+                                                icon-name="utility:check"
+                                                data-hpid={check.fixHpId}
+                                            ></lightning-button>
+                                        </template>
+                                    </template>
                                     <template if:true={check.hasLink}>
                                         &nbsp;<lightning-button
                                             variant="base"

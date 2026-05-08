@@ -1,6 +1,7 @@
 import { LightningElement } from 'lwc';
 import diagnoseSearch from '@salesforce/apex/SearchDiagnosticController.diagnoseSearch';
 import getUserTerritories from '@salesforce/apex/SearchDiagnosticController.getUserTerritories';
+import fixIsPrimaryProvider from '@salesforce/apex/SearchDiagnosticController.fixIsPrimaryProvider';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const STATUS_ICONS = {
@@ -31,6 +32,31 @@ export default class SearchDiagnostic extends LightningElement {
     handleOpenLink(event) {
         const url = event.currentTarget.dataset.url;
         window.open(url, '_blank');
+    }
+
+    handleFixPrimaryProvider(event) {
+        const hpId = event.currentTarget.dataset.hpid;
+        fixIsPrimaryProvider({ healthcareProviderId: hpId })
+            .then(() => {
+                this.checks = this.checks.map(c => {
+                    if (c.fixHpId === hpId) {
+                        return { ...c, fixHpDone: true };
+                    }
+                    return c;
+                });
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Fixed',
+                    message: 'IsPrimaryProvider set to true',
+                    variant: 'success'
+                }));
+            })
+            .catch(error => {
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Error',
+                    message: error.body?.message || 'Could not update',
+                    variant: 'error'
+                }));
+            });
     }
 
     handleDiagnose() {
@@ -79,6 +105,9 @@ export default class SearchDiagnostic extends LightningElement {
                             linkId: linkId,
                             hasLink: !!linkId,
                             linkUrl: linkId ? '/' + linkId : '',
+                            fixHpId: check.fixHpId || null,
+                            hasFixHp: !!check.fixHpId,
+                            fixHpDone: false,
                             key: index,
                             iconName: STATUS_ICONS[check.status] || 'utility:info',
                             iconVariant: STATUS_VARIANTS[check.status] || '',

@@ -1,6 +1,11 @@
 public with sharing class SearchBeforeCreateConfigController {
 
+    @TestVisible private static String testSessionId;
+
     private static String getSessionId() {
+        if (Test.isRunningTest() && testSessionId != null) {
+            return testSessionId;
+        }
         String vfContent = Page.SessionId.getContent().toString();
         return vfContent.trim();
     }

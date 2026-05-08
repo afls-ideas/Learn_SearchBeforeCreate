@@ -1,6 +1,11 @@
 public with sharing class SearchDiagnosticController {
 
+    @TestVisible private static String testSessionId;
+
     private static String getSessionId() {
+        if (Test.isRunningTest() && testSessionId != null) {
+            return testSessionId;
+        }
         String vfContent = Page.SessionId.getContent().toString();
         return vfContent.trim();
     }
@@ -82,7 +87,10 @@ public with sharing class SearchDiagnosticController {
                 if (isPrimary == true) {
                     checks.add(buildCheck('IsPrimaryProvider', 'PASS', 'true — account is searchable'));
                 } else {
-                    checks.add(buildCheck('IsPrimaryProvider', 'FAIL', 'false — search query filters on IsPrimaryProvider = true'));
+                    String hpId = (String) hp.get('Id');
+                    Map<String, Object> hpCheck = buildCheck('IsPrimaryProvider', 'FAIL', 'false — search query filters on IsPrimaryProvider = true');
+                    hpCheck.put('fixHpId', hpId);
+                    checks.add(hpCheck);
                 }
             }
         } else {
@@ -502,6 +510,25 @@ public with sharing class SearchDiagnosticController {
         result.put('accountName', acct.Name);
 
         return result;
+    }
+
+    @AuraEnabled
+    public static void fixIsPrimaryProvider(Id healthcareProviderId) {
+        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
+        String endpoint = baseUrl + '/services/data/v66.0/sobjects/HealthcareProvider/' + healthcareProviderId;
+
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint(endpoint);
+        req.setMethod('PATCH');
+        req.setHeader('Authorization', 'Bearer ' + getSessionId());
+        req.setHeader('Content-Type', 'application/json');
+        req.setBody('{"IsPrimaryProvider": true}');
+
+        Http http = new Http();
+        HttpResponse res = http.send(req);
+        if (res.getStatusCode() >= 400) {
+            throw new AuraHandledException('Failed to update: ' + res.getBody());
+        }
     }
 
     private static Map<String, Object> buildCheck(String checkName, String status, String detail) {
